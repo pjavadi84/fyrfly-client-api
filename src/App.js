@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import {BrowserRouter, Switch, Route} from 'react-router-dom';
+import Home from './components/Home'
+import Login from './components/registrations/Login'
+import Signup from './components/registrations/Signup'
 class App extends Component {
   constructor(props){
     super(props);
@@ -46,9 +49,30 @@ class App extends Component {
       <div>
          <BrowserRouter>
           <Switch>
-            <Route exact path='/' component={}/>
-            <Route exact path='/login' component={}/>
-            <Route exact path='/signup' component={}/>
+            {/* passing props to Home tracking if the user is already logged in */}
+            <Route 
+                exact path='/' 
+                render={props => (
+                <Home {...props} loggedInStatus={this.state.isLoggedIn}/>
+                )}
+            />
+
+            {/* passing props to Login component if the user is not loggedin */}
+            <Route 
+              exact path='/login' 
+              render={props => (
+              <Login {...props} handleLogin={this.handleLogin} loggedInStatus={this.state.isLoggedIn}/>
+              )}
+            />
+
+            {/* passing the props to Signup for a new user registration */}
+            <Route 
+              exact path='/signup' 
+              render={props => (
+              <Signup {...props} handleLogin={this.handleLogin} loggedInStatus={this.state.isLoggedIn}/>
+              )}
+            />
+     
           </Switch>
         </BrowserRouter>
       </div>
